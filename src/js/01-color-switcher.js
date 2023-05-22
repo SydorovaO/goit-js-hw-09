@@ -7,12 +7,10 @@ console.log(stopBtn);
 stopBtn.setAttribute('disabled', 'true');
 
 startBtn.addEventListener('click', () => {
+  stopBtn.removeAttribute('disabled');
+  startBtn.setAttribute('disabled', 'true');
   timerId = setInterval(() => {
-    console.log('ggggggggggggg');
     document.body.style.backgroundColor = getRandomHexColor();
-
-    stopBtn.removeAttribute('disabled');
-    startBtn.setAttribute('disabled', 'true');
   }, 1000);
 });
 
@@ -23,8 +21,7 @@ function getRandomHexColor() {
 }
 
 stopBtn.addEventListener('click', () => {
-  clearInterval(timerId);
   stopBtn.setAttribute('disabled', 'true');
   startBtn.removeAttribute('disabled');
-  console.log(`Interval with id ${timerId} has stopped!`);
+  clearInterval(timerId);
 });
