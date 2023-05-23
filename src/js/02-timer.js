@@ -3,6 +3,7 @@ import 'flatpickr/dist/flatpickr.min.css';
 
 const refs = {
   //   datetimePickerEl: document.getElementById('datetime-picker'),
+  startButton: document.querySelector('button[data-start]'),
   timer: document.getElementsByClassName('timer'),
   field: document.getElementsByClassName('field'),
   value: document.getElementsByClassName('value'),
@@ -12,7 +13,8 @@ const refs = {
   minutes: document.querySelector('span[data-minutes]'),
   seconds: document.querySelector('span[data-seconds]'),
 };
-const { datetimePickerEl, timer, hours, minutes, seconds } = refs;
+const { datetimePickerEl, startButton, timer, hours, minutes, seconds } = refs;
+startButton.setAttribute('disabled', 'true');
 
 const options = {
   enableTime: true,
@@ -22,11 +24,20 @@ const options = {
   onClose(selectedDates) {
     const selectedDate = selectedDates[0];
     console.log(selectedDate);
-    setInterval(() => {
-      const currentDate = new Date();
+    if (selectedDate <= new Date()) {
+      window.alert('Please choose a date in the future');
+      return;
+    } else {
+      startButton.removeAttribute('disabled');
+      startButton.addEventListener('click', () => {
+        startButton.setAttribute('disabled', 'true');
+        setInterval(() => {
+          const currentDate = new Date();
 
-      console.log(convertMs(selectedDate - currentDate));
-    }, 5000);
+          console.log(convertMs(selectedDate - currentDate));
+        }, 1000);
+      });
+    }
   },
 };
 
