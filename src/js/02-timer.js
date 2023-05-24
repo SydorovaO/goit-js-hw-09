@@ -16,22 +16,6 @@ const refs = {
 const { datetimePickerEl, startButton, timer, hours, minutes, seconds } = refs;
 startButton.setAttribute('disabled', 'true');
 
-//
-//       startButton.removeAttribute('disabled');
-//       startButton.addEventListener('click', () => {
-//         startButton.setAttribute('disabled', 'true');
-//         setInterval(() => {
-//           const currentDate = new Date();
-//           const deltaTime = selectedDate - currentDate;
-//           const { days, hours, minutes, seconds } = convertMs(deltaTime);
-//           console.log(`${days}:${hours}:${minutes}:${seconds}`);
-//           // console.log(convertMs(selectedDate - currentDate));
-//         }, 1000);
-//       });
-//     }
-//   },
-// };
-
 const options = {
   enableTime: true,
   time_24hr: true,
@@ -87,4 +71,10 @@ function convertMs(ms) {
   );
 
   return { days, hours, minutes, seconds };
+}
+function updateClockface({ days, hours, minutes, seconds }) {
+  refs.days.textContent = `${days}`;
+  refs.hours.textConten = `${hours}`;
+  refs.minutes.textCont = `${minutes}`;
+  refs.seconds.textCont = `${seconds}`;
 }
