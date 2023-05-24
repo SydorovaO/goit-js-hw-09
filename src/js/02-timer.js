@@ -16,34 +16,53 @@ const refs = {
 const { datetimePickerEl, startButton, timer, hours, minutes, seconds } = refs;
 startButton.setAttribute('disabled', 'true');
 
+//
+//       startButton.removeAttribute('disabled');
+//       startButton.addEventListener('click', () => {
+//         startButton.setAttribute('disabled', 'true');
+//         setInterval(() => {
+//           const currentDate = new Date();
+//           const deltaTime = selectedDate - currentDate;
+//           const { days, hours, minutes, seconds } = convertMs(deltaTime);
+//           console.log(`${days}:${hours}:${minutes}:${seconds}`);
+//           // console.log(convertMs(selectedDate - currentDate));
+//         }, 1000);
+//       });
+//     }
+//   },
+// };
+
 const options = {
   enableTime: true,
   time_24hr: true,
   defaultDate: new Date(),
   minuteIncrement: 1,
-  onClose(selectedDates) {
-    const selectedDate = selectedDates[0];
-    console.log(selectedDate);
-    if (selectedDate <= new Date()) {
-      window.alert('Please choose a date in the future');
-      return;
-    } else {
-      startButton.removeAttribute('disabled');
-      startButton.addEventListener('click', () => {
-        startButton.setAttribute('disabled', 'true');
-        setInterval(() => {
-          const currentDate = new Date();
-          const deltaTime = selectedDate - currentDate;
-          const { days, hours, minutes, seconds } = convertMs(deltaTime);
-          console.log(`${days}:${hours}:${minutes}:${seconds}`);
-          // console.log(convertMs(selectedDate - currentDate));
-        }, 1000);
-      });
-    }
-  },
+  onClose: handleClose,
 };
-
 flatpickr('#datetime-picker', options);
+function handleClose(selectedDates) {
+  const selectedDate = selectedDates[0];
+  console.log(selectedDate);
+  if (selectedDate <= new Date()) {
+    window.alert('Please choose a date in the future');
+    return;
+  } else {
+    startButton.removeAttribute('disabled');
+    startButton.addEventListener('click', () => {
+      handleButtonClick(selectedDate);
+    });
+  }
+}
+
+function handleButtonClick(selectedDate) {
+  startButton.setAttribute('disabled', 'true');
+  setInterval(() => {
+    const currentDate = new Date();
+    const deltaTime = selectedDate - currentDate;
+    const { days, hours, minutes, seconds } = convertMs(deltaTime);
+    console.log(`${days}:${hours}:${minutes}:${seconds}`);
+  }, 1000);
+}
 
 function addLeadingZero(value) {
   return String(value).padStart(2, '0');
