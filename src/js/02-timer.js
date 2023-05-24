@@ -33,8 +33,10 @@ const options = {
         startButton.setAttribute('disabled', 'true');
         setInterval(() => {
           const currentDate = new Date();
-
-          console.log(convertMs(selectedDate - currentDate));
+          const deltaTime = selectedDate - currentDate;
+          const { days, hours, minutes, seconds } = convertMs(deltaTime);
+          console.log(`${days}:${hours}:${minutes}:${seconds}`);
+          // console.log(convertMs(selectedDate - currentDate));
         }, 1000);
       });
     }
