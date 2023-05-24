@@ -1,13 +1,13 @@
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
-
+// ==============
 const refs = {
   //   datetimePickerEl: document.getElementById('datetime-picker'),
   startButton: document.querySelector('button[data-start]'),
-  timer: document.getElementsByClassName('timer'),
-  field: document.getElementsByClassName('field'),
-  value: document.getElementsByClassName('value'),
-  label: document.getElementsByClassName('label'),
+  // timer: document.getElementsByClassName('timer'),
+  // field: document.getElementsByClassName('field'),
+  // value: document.getElementsByClassName('value'),
+  // label: document.getElementsByClassName('label'),
   days: document.querySelector('span[data-days]'),
   hours: document.querySelector('span[data-hours]'),
   minutes: document.querySelector('span[data-minutes]'),
@@ -40,12 +40,22 @@ function handleClose(selectedDates) {
 
 function handleButtonClick(selectedDate) {
   startButton.setAttribute('disabled', 'true');
-  setInterval(() => {
+  const IntervalId = setInterval(() => {
     const currentDate = new Date();
     const deltaTime = selectedDate - currentDate;
+    if (deltaTime <= 0) {
+      clearInterval(IntervalId);
+      return;
+    }
+
     const { days, hours, minutes, seconds } = convertMs(deltaTime);
     console.log(`${days}:${hours}:${minutes}:${seconds}`);
+    updateClockface({ days, hours, minutes, seconds });
   }, 1000);
+
+  // function stopTime() {
+  //   clearInterval(IntervalId);
+  // }
 }
 
 function addLeadingZero(value) {
@@ -53,19 +63,14 @@ function addLeadingZero(value) {
 }
 
 function convertMs(ms) {
-  // Number of milliseconds per unit of time
   const second = 1000;
   const minute = second * 60;
   const hour = minute * 60;
   const day = hour * 24;
 
-  // Remaining days
   const days = addLeadingZero(Math.floor(ms / day));
-  // Remaining hours
   const hours = addLeadingZero(Math.floor((ms % day) / hour));
-  // Remaining minutes
   const minutes = addLeadingZero(Math.floor(((ms % day) % hour) / minute));
-  // Remaining seconds
   const seconds = addLeadingZero(
     Math.floor((((ms % day) % hour) % minute) / second)
   );
@@ -74,7 +79,7 @@ function convertMs(ms) {
 }
 function updateClockface({ days, hours, minutes, seconds }) {
   refs.days.textContent = `${days}`;
-  refs.hours.textConten = `${hours}`;
-  refs.minutes.textCont = `${minutes}`;
-  refs.seconds.textCont = `${seconds}`;
+  refs.hours.textContent = `${hours}`;
+  refs.minutes.textContent = `${minutes}`;
+  refs.seconds.textContent = `${seconds}`;
 }
