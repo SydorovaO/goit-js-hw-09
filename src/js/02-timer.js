@@ -2,19 +2,13 @@ import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 // ==============
 const refs = {
-  //   datetimePickerEl: document.getElementById('datetime-picker'),
   startButton: document.querySelector('button[data-start]'),
-  // timer: document.getElementsByClassName('timer'),
-  // field: document.getElementsByClassName('field'),
-  // value: document.getElementsByClassName('value'),
-  // label: document.getElementsByClassName('label'),
   daysEl: document.querySelector('span[data-days]'),
   hoursEl: document.querySelector('span[data-hours]'),
   minutesEl: document.querySelector('span[data-minutes]'),
   secondsEl: document.querySelector('span[data-seconds]'),
 };
 const { startButton, daysEl, hoursEl, minutesEl, secondsEl } = refs;
-startButton.setAttribute('disabled', 'true');
 
 const options = {
   enableTime: true,
@@ -24,14 +18,15 @@ const options = {
   onClose: handleClose,
 };
 flatpickr('#datetime-picker', options);
+startButton.disabled = true;
 function handleClose(selectedDates) {
   const selectedDate = selectedDates[0];
   console.log(selectedDate);
-  if (selectedDate <= new Date()) {
+  if (selectedDate < new Date()) {
     window.alert('Please choose a date in the future');
     return;
   } else {
-    startButton.removeAttribute('disabled');
+    startButton.disabled = false;
     startButton.addEventListener('click', () => {
       handleButtonClick(selectedDate);
     });
@@ -79,4 +74,4 @@ function updateClockface({ days, hours, minutes, seconds }) {
   minutesEl.textContent = `${minutes}`;
   secondsEl.textContent = `${seconds}`;
 }
-// 0000000000000000
+// pppppppppppppppppppppp
