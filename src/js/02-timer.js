@@ -17,27 +17,30 @@ const options = {
   minuteIncrement: 1,
   onClose: handleClose,
 };
-flatpickr('#datetime-picker', options);
+const datePicker = flatpickr('#datetime-picker', options);
 startButton.disabled = true;
+
 function handleClose(selectedDates) {
   const selectedDate = selectedDates[0];
   console.log(selectedDate);
-  if (selectedDate < new Date()) {
+  if (selectedDate < options.defaultDate) {
     window.alert('Please choose a date in the future');
     return;
   } else {
     startButton.disabled = false;
-    startButton.addEventListener('click', () => {
-      handleButtonClick(selectedDate);
-    });
   }
 }
 
-function handleButtonClick(selectedDate) {
-  startButton.setAttribute('disabled', 'true');
+startButton.addEventListener('click', () => {
+  handleButtonClick();
+});
+
+function handleButtonClick() {
+  startButton.disabled = true;
+  const selectedDateOnClick = datePicker.selectedDates[0];
   const intervalId = setInterval(() => {
     const currentDate = new Date();
-    const deltaTime = selectedDate - currentDate;
+    const deltaTime = selectedDateOnClick - currentDate;
     if (deltaTime <= 0) {
       clearInterval(intervalId);
       console.log('Timer stopped');
