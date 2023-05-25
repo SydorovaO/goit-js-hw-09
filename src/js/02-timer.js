@@ -8,12 +8,12 @@ const refs = {
   // field: document.getElementsByClassName('field'),
   // value: document.getElementsByClassName('value'),
   // label: document.getElementsByClassName('label'),
-  days: document.querySelector('span[data-days]'),
-  hours: document.querySelector('span[data-hours]'),
-  minutes: document.querySelector('span[data-minutes]'),
-  seconds: document.querySelector('span[data-seconds]'),
+  daysEl: document.querySelector('span[data-days]'),
+  hoursEl: document.querySelector('span[data-hours]'),
+  minutesEl: document.querySelector('span[data-minutes]'),
+  secondsEl: document.querySelector('span[data-seconds]'),
 };
-const { datetimePickerEl, startButton, timer, hours, minutes, seconds } = refs;
+const { startButton, daysEl, hoursEl, minutesEl, secondsEl } = refs;
 startButton.setAttribute('disabled', 'true');
 
 const options = {
@@ -40,22 +40,18 @@ function handleClose(selectedDates) {
 
 function handleButtonClick(selectedDate) {
   startButton.setAttribute('disabled', 'true');
-  const IntervalId = setInterval(() => {
+  const intervalId = setInterval(() => {
     const currentDate = new Date();
     const deltaTime = selectedDate - currentDate;
     if (deltaTime <= 0) {
-      clearInterval(IntervalId);
+      clearInterval(intervalId);
+      console.log('Timer stopped');
       return;
     }
-
     const { days, hours, minutes, seconds } = convertMs(deltaTime);
     console.log(`${days}:${hours}:${minutes}:${seconds}`);
     updateClockface({ days, hours, minutes, seconds });
   }, 1000);
-
-  // function stopTime() {
-  //   clearInterval(IntervalId);
-  // }
 }
 
 function addLeadingZero(value) {
@@ -78,8 +74,9 @@ function convertMs(ms) {
   return { days, hours, minutes, seconds };
 }
 function updateClockface({ days, hours, minutes, seconds }) {
-  refs.days.textContent = `${days}`;
-  refs.hours.textContent = `${hours}`;
-  refs.minutes.textContent = `${minutes}`;
-  refs.seconds.textContent = `${seconds}`;
+  daysEl.textContent = `${days}`;
+  hoursEl.textContent = `${hours}`;
+  minutesEl.textContent = `${minutes}`;
+  secondsEl.textContent = `${seconds}`;
 }
+// 0000000000000000
